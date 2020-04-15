@@ -1,6 +1,17 @@
 
 'use strict';
 
+
+
+
+
+let drawElementBody = function () {
+    let canvas = document.getElementById("picture");
+    let ctx = canvas.getContext("2d");
+    ctx.fillStyle = "Red";
+    ctx.fillRect(100, 10, 50, 50);
+};
+
 let words = [
     "программа",
     "макака",
@@ -12,70 +23,64 @@ let words = [
     "мануфактура"
 ];
 
-let pickWord = function (word) {
-    return word[Math.floor(Math.random() * word.length)];
-};
+//Внутренней переменной word задаём случайный элемент массива words
+let randomWord = function () {
+    let word = words[Math.floor(Math.random() * words.length)];
+    return word;
+}
 
-
-let setupAnswerArray = function (word) {
+//Создаём массив с "_", которые соответствуют количеству букв в слове. Там хранится ответ
+let encryptWord = function () {
+    let answerArray = [];
     for (let i = 0; i < word.length; i++) {
-        word[i] = "_";
-    }
-};
+        answerArray[i] = "_";
+    };
+    return answerArray;
+}
 
 
-let showPlayerProgress = function (answerArray) {
-    alert(setupAnswerArray(pickWord)).join(" ");
-};
 
-let getGuess = function () {
+let showMessage = function () {
     let guess = prompt("Угадай букву или нажмите Отмена для выхода из игры.");
-    guess = guess.toLowerCase();
-}
-
-let updateGameState = function (guess, word, answerArray) {
-    guess.toLowerCase();
-    attemp--;
-    for (let j = 0; j < word.length; j++) {
-        if ((word[j] === guess) && (answerArray[j] === "_")) {
-            answerArray[j] = guess;
-            remainingLetters--;
-        }
-    }
-}
-
-let showAnswerAndCongratulatePlayer = function (answerArray) {
-    if (attemp === 0) {
-        alert("Увы. У вас закончились попытки.");
-    }
-    else {
-        alert(answerArray.join(" "));
-        alert("Отлично! Было загадано слово " + word);
-    }
+    document.getElementById('inform-text').innerHTML = "Hello, World!";
+    return guess;
 };
 
 
-
-
-
-
-
-
-
-pickWord(words);
-setupAnswerArray(pickWord);
+let word = randomWord();
+let answerArray = encryptWord();
+let remainingLetters = word.length;
 let attemp = 10;
-let remainingLetters = pickWord.length;
-while ((remainingLetters > 0) && (attemp > 0)) {
 
-    let guess = getGuess();
+while ((remainingLetters > 0) && (attemp > 0)) {
+    alert(answerArray.join(" "));
+    let guess = showMessage();
+    guess = guess.toLowerCase();
     if (guess === null) {
         break;
     } else if (guess.length !== 1) {
         alert("Пожалуйста, введите только одну букву.");
     } else {
-        let correctGuesses = updateGameState(guess, word, answerArray);
-        remainingLetters -= correctGuesses;
+        guess.toLowerCase();
+        attemp--;
+        for (var j = 0; j < word.length; j++) {
+            if ((word[j] === guess) && (answerArray[j] === "_")) {
+                answerArray[j] = guess;
+                remainingLetters--;
+            }
+            else if (word[j] !== guess) {
+                drawElementBody();
+            }
+        }
     }
 }
-showAnswerAndCongratulatePlayer(answerArray);
+
+if (attemp === 0) {
+    alert("Увы. У вас закончились попытки.");
+}
+else {
+    alert(answerArray.join(" "));
+    alert("Отлично! Было загадано слово " + word);
+}
+
+

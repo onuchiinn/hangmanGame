@@ -1,12 +1,8 @@
 
 'use strict';
 
-
-
-
-
 let drawElementBody = function () {
-    let canvas = document.getElementById("picture");
+    let canvas = document.getElementById("canvas");
     let ctx = canvas.getContext("2d");
     ctx.fillStyle = "Red";
     ctx.fillRect(100, 10, 50, 50);
@@ -42,7 +38,6 @@ let encryptWord = function () {
 
 let showMessage = function () {
     let guess = prompt("Угадай букву или нажмите Отмена для выхода из игры.");
-    document.getElementById('inform-text').innerHTML = "Hello, World!";
     return guess;
 };
 
